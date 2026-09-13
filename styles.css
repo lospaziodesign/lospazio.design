@@ -1,0 +1,421 @@
+/* ==========================================================
+   LO SPAZIO — DESIGN TOKENS
+   Change colors, fonts, and spacing here and they update
+   everywhere on the site.
+========================================================== */
+:root {
+  --ink:        #3E4130;   /* dark olive — logo line color, headings */
+  --ink-soft:   #5B5F49;   /* lighter olive — body text */
+  --sage:       #B7C09B;   /* sage green — logo fill, accents */
+  --sage-soft:  #E7EADA;   /* pale sage — section backgrounds */
+  --paper:      #FBF9F3;   /* warm off-white — main background */
+  --paper-deep: #F1EEE2;   /* deeper cream — alternating sections */
+  --white:      #FFFFFF;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Work Sans', sans-serif;
+
+  --max-width: 1180px;
+  --gutter: clamp(24px, 5vw, 72px);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  margin: 0;
+  font-weight: 500;
+}
+
+p { margin: 0 0 1em; }
+
+a { color: inherit; text-decoration: none; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  margin-bottom: 2rem;
+}
+
+/* ==========================================================
+   NAV
+========================================================== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px var(--gutter);
+  background: rgba(251, 249, 243, 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.nav__logo { height: 46px; width: auto; }
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  font-size: 0.95rem;
+}
+
+.nav__links a { padding: 6px 0; border-bottom: 1px solid transparent; }
+.nav__links a:hover { border-bottom-color: var(--ink); }
+
+.nav__cta {
+  background: var(--ink);
+  color: var(--paper) !important;
+  padding: 10px 20px !important;
+  border-radius: 999px;
+}
+.nav__cta:hover { border-bottom-color: transparent !important; opacity: 0.85; }
+
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+.nav__toggle span { width: 24px; height: 2px; background: var(--ink); }
+
+/* ==========================================================
+   HERO
+========================================================== */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+  overflow: hidden;
+}
+
+.hero__arch {
+  position: absolute;
+  right: -8%;
+  top: 0;
+  bottom: 0;
+  width: 55%;
+  pointer-events: none;
+}
+.hero__arch svg { width: 100%; height: 100%; }
+.hero__arch path {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 2;
+  opacity: 0.55;
+}
+
+.hero__content {
+  max-width: 620px;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: rise 0.9s ease-out 0.15s forwards;
+}
+
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero__kicker {
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin-bottom: 1.4rem;
+}
+
+.hero__headline {
+  font-size: clamp(3rem, 7vw, 5.4rem);
+  line-height: 1.02;
+  margin-bottom: 1.5rem;
+}
+
+.hero__sub {
+  font-size: 1.15rem;
+  max-width: 46ch;
+  margin-bottom: 2.2rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.button--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.button--primary:hover { opacity: 0.85; }
+
+/* ==========================================================
+   THE STUDIO
+========================================================== */
+.studio {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  padding: 7rem var(--gutter);
+  background: var(--paper-deep);
+}
+
+.studio__image {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 220px 220px 0 0;
+  background: var(--sage-soft);
+}
+.studio__image img { width: 100%; height: 100%; object-fit: cover; }
+.studio__image--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.studio__image--empty::after {
+  content: "Add a studio photo → images/studio-placeholder.jpg";
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.studio__text h2 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  margin-bottom: 1.4rem;
+  max-width: 16ch;
+}
+
+.studio__text p { max-width: 52ch; }
+
+.studio__list {
+  list-style: none;
+  padding: 0;
+  margin: 1.6rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.studio__list li {
+  padding-left: 1.4rem;
+  position: relative;
+}
+.studio__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 1px;
+  background: var(--ink);
+}
+
+/* ==========================================================
+   THE WORK
+========================================================== */
+.work {
+  padding: 7rem var(--gutter);
+}
+
+.work__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.2rem, 3vw, 2.2rem);
+}
+
+.work__item { cursor: pointer; }
+.work__item--large { grid-column: span 2; }
+
+.work__image {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--sage-soft);
+}
+.work__item--large .work__image { aspect-ratio: 21 / 10; }
+
+.work__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.work__item:hover .work__image img { transform: scale(1.04); }
+
+.work__image--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.work__image--empty::after {
+  content: "Add a project photo here";
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.work__caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--sage);
+  margin-top: 0.9rem;
+}
+.work__caption h3 { font-size: 1.15rem; }
+.work__caption p { margin: 0; font-size: 0.9rem; color: var(--sage); }
+
+/* ==========================================================
+   LIGHTBOX
+========================================================== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(62, 65, 48, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; }
+
+.lightbox__panel {
+  background: var(--paper);
+  max-width: 720px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 2rem;
+  transform: scale(0.97);
+  transition: transform 0.3s ease;
+}
+.lightbox.is-open .lightbox__panel { transform: scale(1); }
+
+.lightbox__image { width: 100%; aspect-ratio: 16/10; object-fit: cover; margin-bottom: 1.4rem; }
+.lightbox__tag { color: var(--sage); font-size: 0.9rem; margin-bottom: 0.3rem; }
+.lightbox__title { font-size: 1.6rem; margin-bottom: 0.8rem; }
+.lightbox__desc { margin: 0; }
+
+.lightbox__close {
+  position: absolute;
+  top: 24px;
+  right: var(--gutter);
+  background: none;
+  border: none;
+  color: var(--paper);
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ==========================================================
+   SAY HELLO
+========================================================== */
+.hello {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  padding: 7rem var(--gutter);
+  background: var(--sage-soft);
+}
+
+.hello__intro p { max-width: 46ch; margin-bottom: 2rem; }
+
+.hello__direct {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.05rem;
+  width: fit-content;
+  border-bottom: 1px solid transparent;
+}
+.contact-link:hover { border-bottom-color: var(--ink); }
+.contact-link__icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.contact-link__icon svg { width: 100%; height: 100%; fill: var(--ink); }
+
+.hello__form iframe {
+  width: 100%;
+  height: 620px;
+  border: none;
+  background: var(--white);
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+.footer {
+  text-align: center;
+  padding: 4rem var(--gutter) 3rem;
+  color: var(--ink-soft);
+}
+.footer__logo { height: 40px; margin: 0 auto 1rem; }
+.footer__year { font-size: 0.85rem; opacity: 0.7; margin-top: 0.4rem; }
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+@media (max-width: 900px) {
+  .nav__links {
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: var(--paper);
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.4rem;
+    font-size: 1.3rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+  .nav__links.is-open { transform: translateX(0); }
+  .nav__toggle { display: flex; }
+
+  .studio, .hello { grid-template-columns: 1fr; }
+  .work__grid { grid-template-columns: 1fr; }
+  .work__item--large { grid-column: span 1; }
+  .hello__form iframe { height: 500px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero__content { animation: none; opacity: 1; transform: none; }
+  .work__image img, .lightbox, .lightbox__panel { transition: none; }
+}
