@@ -1,6 +1,6 @@
 // ==========================================================
 // LO SPAZIO — site behavior
-// Three small things: mobile menu, project lightbox, footer year.
+// Four things: mobile menu, footer year, work filters, carousels.
 // ==========================================================
 
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -12,43 +12,98 @@ const navLinks = document.querySelector('.nav__links');
 navToggle.addEventListener('click', () => {
   navLinks.classList.toggle('is-open');
 });
-
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => navLinks.classList.remove('is-open'));
 });
 
-// --- Project lightbox ---
-// Reads data-title / data-tag / data-desc from whichever
-// .work__item was clicked, and the image already on the card.
-const lightbox = document.getElementById('lightbox');
-const lightboxImage = document.getElementById('lightboxImage');
-const lightboxTag = document.getElementById('lightboxTag');
-const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxDesc = document.getElementById('lightboxDesc');
-const lightboxClose = document.getElementById('lightboxClose');
+// --- Work filters ---
+// Click a tab, show only posts whose data-category matches it
+// (or everything, for "All").
+const filterButtons = document.querySelectorAll('.work__filters button');
+const posts = document.querySelectorAll('.post');
 
-document.querySelectorAll('.work__item').forEach(item => {
-  item.addEventListener('click', () => {
-    const img = item.querySelector('.work__image img');
-    lightboxImage.src = img.src;
-    lightboxImage.alt = img.alt;
-    lightboxTag.textContent = item.dataset.tag || '';
-    lightboxTitle.textContent = item.dataset.title || '';
-    lightboxDesc.textContent = item.dataset.desc || '';
-    lightbox.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterButtons.forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const filter = btn.dataset.filter;
+
+    posts.forEach(post => {
+      const show = filter === 'all' || post.dataset.category === filter;
+      post.classList.toggle('is-hidden', !show);
+    });
   });
 });
 
-function closeLightbox() {
-  lightbox.classList.remove('is-open');
-  document.body.style.overflow = '';
-}
+// --- Carousels ---
+// Every .post__carousel is independent: it reads however many
+// <img> tags are inside its .post__track, builds that many dots,
+// wires up the arrows, and autoplays on the interval given in its
+// data-autoplay attribute (milliseconds). Add a new post with more
+// or fewer images and this just works — nothing to edit here.
+document.querySelectorAll('.post__carousel').forEach(carousel => {
+  const track = carousel.querySelector('.post__track');
+  const images = track.querySelectorAll('img');
+  const count = images.length;
+  carousel.dataset.count = count;
 
-lightboxClose.addEventListener('click', closeLightbox);
-lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) closeLightbox();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeLightbox();
+  if (count <= 1) return; // nothing to slide
+
+  const dotsWrap = carousel.querySelector('.post__dots');
+  const prevBtn = carousel.querySelector('.post__arrow--prev');
+  const nextBtn = carousel.querySelector('.post__arrow--next');
+  let index = 0;
+  let timer = null;
+
+  // Build one dot per image
+  const dots = [];
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement('button');
+    dot.setAttribute('aria-label', 'Go to image ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+    dots.push(dot);
+  }
+
+  function render() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+  }
+
+  function goTo(i) {
+    index = (i + count) % count;
+    render();
+  }
+
+  function next() { goTo(index + 1); }
+  function prev() { goTo(index - 1); }
+
+  prevBtn.addEventListener('click', () => { prev(); restartAutoplay(); });
+  nextBtn.addEventListener('click', () => { next(); restartAutoplay(); });
+
+  function startAutoplay() {
+    const interval = parseInt(carousel.dataset.autoplay, 10) || 5000;
+    timer = setInterval(next, interval);
+  }
+  function stopAutoplay() { clearInterval(timer); }
+  function restartAutoplay() { stopAutoplay(); startAutoplay(); }
+
+  carousel.addEventListener('mouseenter', stopAutoplay);
+  carousel.addEventListener('mouseleave', startAutoplay);
+
+  // Basic swipe support for touch devices
+  let touchStartX = 0;
+  carousel.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    stopAutoplay();
+  }, { passive: true });
+  carousel.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (diff > 40) prev();
+    else if (diff < -40) next();
+    startAutoplay();
+  }, { passive: true });
+
+  render();
+  startAutoplay();
 });
