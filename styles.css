@@ -456,7 +456,7 @@ button { font-family: var(--font-body); cursor: pointer; }
   .studio, .hello { grid-template-columns: 1fr; }
   .work__grid { grid-template-columns: 1fr; }
   .materials__groups { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-  .hello__form iframe { height: 500px; }
+  .hello__form iframe { height: 700px; }
   .post__arrow { opacity: 1; } /* no hover on touch devices */
 }
 
