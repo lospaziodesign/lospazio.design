@@ -27,6 +27,7 @@
   <nav class="nav__links">
     <a href="#studio">The Studio</a>
     <a href="#work">The Work</a>
+    <a href="#materials">The Materials</a>
     <a href="#hello" class="nav__cta">Say Hello</a>
   </nav>
   <button class="nav__toggle" id="navToggle" aria-label="Open menu">
@@ -39,7 +40,6 @@
 ============================================================= -->
 <section class="hero">
   <div class="hero__arch" aria-hidden="true">
-    <!-- Decorative arch, echoes the logo mark -->
     <svg viewBox="0 0 500 700" preserveAspectRatio="xMidYMax slice">
       <path d="M40 700 V260 A210 210 0 0 1 460 260 V700" />
     </svg>
@@ -54,14 +54,11 @@
 </section>
 
 <!-- ============================================================
-     THE STUDIO  (this is the "About Us" section — renamed)
+     THE STUDIO  (About Us, renamed)
 ============================================================= -->
 <section class="studio" id="studio">
   <div class="studio__image">
-    <!--
-      REPLACE THIS: swap in a real photo of your wife / the studio / a finished room.
-      Drop the file in the images/ folder and update the src below.
-    -->
+    <!-- REPLACE: drop a studio/founder photo in images/ and update the src -->
     <img src="images/studio-placeholder.jpg" alt="A Lo Spazio interior" onerror="this.parentElement.classList.add('studio__image--empty')">
   </div>
   <div class="studio__text">
@@ -81,68 +78,147 @@
 </section>
 
 <!-- ============================================================
-     THE WORK  (this is the "Project Gallery" — renamed)
-     Each .work__item is one project. Copy a block to add another.
+     THE WORK  (project gallery, renamed — now with categories)
+
+     HOW THIS WORKS:
+     - Every project is one <article class="post">.
+     - data-category on the article decides which filter tab shows it:
+         designs | interior-executions | exterior-facade
+     - Each post has a .post__track containing 2–10 <img> tags.
+       The JS automatically builds the arrows + dots + autoplay from
+       however many images you put inside — you never touch script.js.
+     - To add a new post: copy one whole <article class="post">...
+       </article> block (see the marked spot below), paste it in,
+       change the images, title, tag text and data-category.
 ============================================================= -->
 <section class="work" id="work">
   <h2 class="section-title">The Work</h2>
 
+  <div class="work__filters" role="tablist">
+    <button class="is-active" data-filter="all">All</button>
+    <button data-filter="designs">Designs</button>
+    <button data-filter="interior-executions">Interior Executions</button>
+    <button data-filter="exterior-facade">Exterior Facade</button>
+  </div>
+
   <div class="work__grid">
 
-    <!-- Project 1 -->
-    <article class="work__item work__item--large"
-              data-title="RamkyOne North"
-              data-tag="Renovation"
-              data-desc="A full renovation of an apartment in RamkyOne North — reworking the layout and every finish end to end, from civil work through to the last light fixture.">
-      <div class="work__image">
-        <img src="images/project-1.jpg" alt="RamkyOne North renovation" onerror="this.parentElement.classList.add('work__image--empty')">
+    <!-- Post 1 -->
+    <article class="post" data-category="interior-executions">
+      <div class="post__carousel" data-autoplay="5000">
+        <div class="post__track">
+          <img src="images/project-1.jpg" alt="RamkyOne North renovation, view 1" onerror="this.closest('.post__carousel').classList.add('post__carousel--empty')">
+          <img src="images/project-1-2.jpg" alt="RamkyOne North renovation, view 2">
+        </div>
+        <button class="post__arrow post__arrow--prev" aria-label="Previous image">&#8249;</button>
+        <button class="post__arrow post__arrow--next" aria-label="Next image">&#8250;</button>
+        <div class="post__dots"></div>
       </div>
-      <div class="work__caption">
+      <div class="post__caption">
         <h3>RamkyOne North</h3>
-        <p>Renovation</p>
+        <p class="post__tag">Interior Executions</p>
+        <p class="post__desc">A full renovation — layout and every finish reworked end to end.</p>
       </div>
     </article>
 
-    <!-- Project 2 -->
-    <article class="work__item"
-              data-title="Prestige City"
-              data-tag="Rental Interior"
-              data-desc="Complete interior design for a rental home in Prestige City — styled for a fast, comfortable move-in without feeling temporary.">
-      <div class="work__image">
-        <img src="images/project-2.jpg" alt="Prestige City rental interior" onerror="this.parentElement.classList.add('work__image--empty')">
+    <!-- Post 2 -->
+    <article class="post" data-category="interior-executions">
+      <div class="post__carousel" data-autoplay="5000">
+        <div class="post__track">
+          <img src="images/project-2.jpg" alt="Prestige City rental interior, view 1" onerror="this.closest('.post__carousel').classList.add('post__carousel--empty')">
+          <img src="images/project-2-2.jpg" alt="Prestige City rental interior, view 2">
+        </div>
+        <button class="post__arrow post__arrow--prev" aria-label="Previous image">&#8249;</button>
+        <button class="post__arrow post__arrow--next" aria-label="Next image">&#8250;</button>
+        <div class="post__dots"></div>
       </div>
-      <div class="work__caption">
+      <div class="post__caption">
         <h3>Prestige City</h3>
-        <p>Rental Interior</p>
+        <p class="post__tag">Interior Executions</p>
+        <p class="post__desc">Complete interior for a rental home — styled for a fast, comfortable move-in.</p>
       </div>
     </article>
 
     <!--
       ============================================================
-      ADD YOUR NEXT PROJECT HERE — copy everything from
-      <article class="work__item"> down to </article> above,
-      paste it below, and change the text and image file names.
-      Use class="work__item work__item--large" on any project
-      you want to appear bigger in the grid.
+      ADD YOUR NEXT POST HERE.
+      Copy from <article class="post" ...> to </article> above,
+      paste below, then:
+        1. Change data-category to: designs / interior-executions /
+           exterior-facade
+        2. Inside .post__track, add one <img> per photo (2 to 10) —
+           just duplicate the <img> line and change the file name
+        3. Update the title, tag text, and description below
       ============================================================
     -->
 
   </div>
 </section>
 
-<!-- Lightbox: opens when a project is clicked -->
-<div class="lightbox" id="lightbox">
-  <button class="lightbox__close" id="lightboxClose" aria-label="Close">&times;</button>
-  <div class="lightbox__panel">
-    <img class="lightbox__image" id="lightboxImage" src="" alt="">
-    <p class="lightbox__tag" id="lightboxTag"></p>
-    <h3 class="lightbox__title" id="lightboxTitle"></h3>
-    <p class="lightbox__desc" id="lightboxDesc"></p>
+<!-- ============================================================
+     THE MATERIALS  (Authenticity — brands used)
+     To add or remove a brand, just add/remove a <li> line.
+============================================================= -->
+<section class="materials" id="materials">
+  <h2 class="section-title">The Materials</h2>
+  <p class="materials__intro">We build with names we trust — every material on
+    site is chosen for how it ages, not just how it looks on day one.</p>
+
+  <!--
+    HOW TO ADD A BRAND LOGO:
+    1. Save the brand's logo file (ideally a transparent PNG or SVG,
+       from their official site) into Images/brands/
+    2. Add one <span class="brand-logo" data-name="Brand Name"> block,
+       with an <img> inside pointing at that file.
+    The data-name is a safety net: if a logo file is missing or
+    hasn't been uploaded yet, the brand's name shows as text instead
+    of a broken image icon — nothing looks broken while you're still
+    collecting logos.
+  -->
+  <div class="materials__groups">
+    <div class="materials__group">
+      <h3>Plywood</h3>
+      <div class="materials__logos">
+        <span class="brand-logo" data-name="Century Ply">
+          <img src="Images/brands/century-ply.png" alt="Century Ply" onerror="this.parentElement.classList.add('brand-logo--empty')">
+        </span>
+        <span class="brand-logo" data-name="NeemPly">
+          <img src="Images/brands/neemply.png" alt="NeemPly" onerror="this.parentElement.classList.add('brand-logo--empty')">
+        </span>
+        <span class="brand-logo" data-name="Sharon Ply">
+          <img src="Images/brands/sharon-ply.png" alt="Sharon Ply" onerror="this.parentElement.classList.add('brand-logo--empty')">
+        </span>
+      </div>
+    </div>
+    <div class="materials__group">
+      <h3>Laminates</h3>
+      <div class="materials__logos">
+        <span class="brand-logo" data-name="Add your laminate brand">
+          <img src="Images/brands/laminate-1.png" alt="Laminate brand" onerror="this.parentElement.classList.add('brand-logo--empty')">
+        </span>
+      </div>
+    </div>
+    <div class="materials__group">
+      <h3>Hardware</h3>
+      <div class="materials__logos">
+        <span class="brand-logo" data-name="Add your hardware brand">
+          <img src="Images/brands/hardware-1.png" alt="Hardware brand" onerror="this.parentElement.classList.add('brand-logo--empty')">
+        </span>
+      </div>
+    </div>
+    <div class="materials__group">
+      <h3>Sanitaryware</h3>
+      <div class="materials__logos">
+        <span class="brand-logo" data-name="Add your sanitaryware brand">
+          <img src="Images/brands/sanitaryware-1.png" alt="Sanitaryware brand" onerror="this.parentElement.classList.add('brand-logo--empty')">
+        </span>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- ============================================================
-     SAY HELLO  (this is the "Contact Us" section — renamed)
+     SAY HELLO  (Contact Us, renamed)
 ============================================================= -->
 <section class="hello" id="hello">
   <div class="hello__intro">
@@ -174,16 +250,8 @@
 
   <div class="hello__form">
     <!--
-      ============================================================
       GOOGLE FORM — replace the src below with your own.
-      How to get it:
-        1. Create your form at forms.google.com
-        2. Click Send → the "<>" embed icon
-        3. Copy the URL inside src="..." from the code Google gives you
-        4. Paste it as the src for the iframe below
-      Submissions land in the linked Google Sheet / your form's
-      "Responses" tab automatically — no extra code needed.
-      ============================================================
+      forms.google.com → Send → "<>" embed icon → copy the src URL.
     -->
     <iframe
       src="https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID_HERE/viewform?embedded=true"
