@@ -115,23 +115,9 @@ button { font-family: var(--font-body); cursor: pointer; }
   padding: 0 var(--gutter);
   overflow: hidden;
 }
-.hero__arch-shape {
-  position: absolute;
-  right: 8%;
-  top: 14%;
-  width: 26vw;
-  max-width: 340px;
-  aspect-ratio: 3 / 4;
-  border: 2px solid var(--sage);
-  border-radius: 200px 200px 0 0;
-  opacity: 0.6;
-  pointer-events: none;
-}
 
-@media (max-width: 900px) {
-  .hero__arch-shape { display: none; }
-}
 .hero__arch {
+   display: none;
   position: absolute;
   right: -8%;
   top: 0;
