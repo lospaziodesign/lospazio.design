@@ -1,109 +1,146 @@
 # Lo Spazio website — how to use this
 
-This is plain HTML, CSS, and JavaScript. No build tools, no account,
-no monthly fee. Three files do everything:
+Plain HTML, CSS, and JavaScript. No build tools, no account, no
+monthly fee. Three files do everything:
 
-- `index.html` — the content and structure
-- `styles.css` — all colors, fonts, spacing (change a color once here,
-  it updates everywhere)
-- `script.js` — the mobile menu and the project lightbox popup
+- `index.html` — content and structure
+- `styles.css` — all colors, fonts, spacing (edit once here, it
+  updates everywhere)
+- `script.js` — mobile menu, work filters, and the carousels
 
-Your logo is already wired in at `images/logo.png`.
+## ⚠️ One thing that bit us before: folder name case
 
-## 1. Add your photos and videos
+Your logo currently lives in a folder called `Images` (capital I),
+and the code matches that exactly (`Images/logo.png`). GitHub Pages
+is case-sensitive, so `Images` and `images` are treated as two
+different folders.
 
-Put image files inside the `images/` folder, then point to them by
-filename in `index.html`:
+For any **new** photos, pick one spelling and use it everywhere —
+easiest is to keep using `Images` (capital I) to match what's
+already there, so you don't have to remember two different rules.
+Whatever you choose, the folder name in GitHub and the file path
+typed in `index.html` must match letter-for-letter.
+
+## Adding a post to "The Work"
+
+Each project is one block in `index.html`, inside the section marked
+`<!-- THE WORK -->`. Find the comment that says:
+
+```
+ADD YOUR NEXT POST HERE
+```
+
+Copy one whole block — from `<article class="post" ...>` down to its
+matching `</article>` — paste it below the comment, and change four
+things:
+
+1. **`data-category`** on the `<article>` tag — this decides which
+   filter tab the post shows up under. Use exactly one of:
+   - `designs`
+   - `interior-executions`
+   - `exterior-facade`
+
+2. **The images** — inside `.post__track`, there's one `<img>` line
+   per photo. Add or remove `<img>` lines to have anywhere from 2 to
+   10 photos; just change the `src` to your file name each time:
+   ```html
+   <img src="Images/designs/riverside-villa-1.jpg" alt="Riverside Villa, living room">
+   <img src="Images/designs/riverside-villa-2.jpg" alt="Riverside Villa, facade">
+   ```
+   You don't need to touch `script.js` — it counts however many
+   images are inside the block and builds the slider, arrows, and
+   dots automatically.
+
+3. **Title, tag, description** — in `.post__caption`, update the
+   `<h3>`, the small tag line, and the one-line description.
+
+4. **Upload the actual image files** into your `Images` folder (a
+   subfolder per post, like `Images/designs/`, keeps things tidy but
+   isn't required — a flat folder works too, just keep names unique).
+
+The carousel auto-advances every 5 seconds by default. To change the
+speed for one post, edit its `data-autoplay="5000"` (milliseconds —
+5000 = 5 seconds).
+
+## Editing "The Materials"
+
+Each brand shows as a logo. Find `<!-- THE MATERIALS -->` in
+`index.html`. One brand looks like this:
 
 ```html
-<img src="images/project-1.jpg" alt="RamkyOne North renovation">
+<span class="brand-logo" data-name="Century Ply">
+  <img src="Images/brands/century-ply.png" alt="Century Ply">
+</span>
 ```
 
-To add a **video** instead of a photo on any project card, replace the
-`<img>` line with:
+To add a brand:
+1. Get the logo file from the brand's official website (look for a
+   "Media" / "Brand Assets" page, or ask your supplier contact) —
+   ideally a transparent PNG or SVG
+2. Upload it into `Images/brands/`
+3. Copy one `<span class="brand-logo">` block, paste it in the right
+   category, point `src` at your new file, and update `data-name`
+   and `alt` to the brand's name
 
-```html
-<video src="images/your-video.mp4" autoplay muted loop playsinline></video>
-```
+`data-name` is a safety net — if the logo file is missing or hasn't
+been uploaded yet, the brand's name quietly shows as text instead of
+a broken image icon, so nothing looks broken while you're still
+collecting logos. Logos display in grayscale and turn full color on
+hover — change this under `.brand-logo img` in `styles.css` if you'd
+rather they show in color all the time.
 
-Until you add real photos, empty sections will show a small grey note
-telling you exactly which file is missing — that's expected, not a bug.
+To add a whole new category, copy one `.materials__group` block
+(heading + `.materials__logos` div) and change its heading.
 
-## 2. Add a new project to "The Work"
+## The Google Form
 
-In `index.html`, find the comment that says:
-
-```
-ADD YOUR NEXT PROJECT HERE
-```
-
-Copy one whole `<article class="work__item">...</article>` block,
-paste it in, and change:
-- `data-title`, `data-tag`, `data-desc` (shown in the popup)
-- the image filename
-- the visible title/tag text just below the image
-
-Add `work__item--large` to the class list to make a card span two
-columns.
-
-## 3. Connect the Google Form
-
-Right now the contact section embeds a placeholder form. To use your
-own:
-
+Still using the placeholder. To connect your own:
 1. Create a form at [forms.google.com](https://forms.google.com)
-2. Click **Send** → the `<>` embed icon → copy the `src="..."` URL
+2. **Send** → the `<>` embed icon → copy the `src="..."` URL
 3. In `index.html`, find `PASTE_YOUR_FORM_ID_HERE` and replace that
    whole iframe `src` with the one you copied
 
-Every submission lands automatically in that form's **Responses**
-tab (and an optional linked Google Sheet) — no extra setup.
+Submissions land automatically in the form's **Responses** tab (and
+an optional linked Google Sheet) — no extra setup needed.
 
-## 4. WhatsApp, Instagram, email
+## WhatsApp, Instagram, email
 
-These are already set from what you gave me:
+Already set:
 - WhatsApp: `wa.me/918521514363`
 - Instagram: `instagram.com/lospazio.design`
 - Email: `lospazio.interiors@gmail.com`
 
-To change a number or handle, search for it in `index.html` and
-replace it — each appears once.
+Each appears once in `index.html` — search and replace to change a
+number or handle.
 
-## 5. Hosting (free, and you can keep editing after)
+## Editing on GitHub (recap)
 
-Any of these work well for a small static site and all support a
-custom domain you buy separately:
+Open any file in the repo on github.com, tap the pencil icon, edit,
+commit. Every commit automatically rebuilds and redeploys the live
+site — no separate "publish" step. It usually takes well under a
+minute; watch the **Actions** tab for a progress indicator if you
+want to confirm. Browsers cache aggressively, so if a change doesn't
+seem to show up, check in an incognito/private tab before assuming
+something's wrong.
 
-**GitHub Pages** (recommended if you want to keep editing easily)
-1. Create a free GitHub account, make a new repository
-2. Upload this whole folder to it
-3. In the repo's Settings → Pages, turn on Pages for the main branch
-4. Your site is live at `yourname.github.io/repo-name`
-5. To edit later: click any file in the repo on github.com, hit the
-   pencil icon, edit right in the browser, commit — live in ~a
-   minute. No install needed.
-6. Add your bought domain in the same Pages settings screen
-   ("Custom domain") and point your domain's DNS to GitHub as their
-   docs describe.
+## Custom domain (Namecheap)
 
-**Netlify** (drag-and-drop, fastest to launch)
-1. Go to [app.netlify.com/drop](https://app.netlify.com/drop)
-2. Drag this folder in — it's live in seconds
-3. To edit afterward, easiest path is connecting the same folder as a
-   GitHub repo (Netlify auto-redeploys on every save)
-4. Add your custom domain in Site settings → Domain management
+**On GitHub** — repo → Settings → Pages → "Custom domain" field →
+type your bare domain (e.g. `lospazio.design`, not with `www.`) →
+Save. This creates a `CNAME` file in the repo automatically.
 
-**Cloudflare Pages** — same idea as Netlify, also free, also plays
-well with GitHub for easy re-edits.
+**On Namecheap** — Domain List → Manage → Advanced DNS → add:
 
-Any of the three is fine. If you think you'll edit the site often,
-GitHub Pages or Netlify-via-GitHub is the smoothest, since editing a
-file in your browser and hitting "commit" is the entire deploy
-process.
+| Type | Host | Value |
+|---|---|---|
+| A Record | @ | 185.199.108.153 |
+| A Record | @ | 185.199.109.153 |
+| A Record | @ | 185.199.110.153 |
+| A Record | @ | 185.199.111.153 |
+| CNAME Record | www | lospaziodesign.github.io. |
 
-## 6. Testing on your own computer first
-
-Before uploading anywhere, you can open `index.html` directly in a
-browser to preview it. Some things (like the Google Form iframe) only
-work once it's uploaded live, so don't worry if that part looks
-empty locally.
+Remove Namecheap's default "Parking Page" / "URL Redirect" record if
+one exists — it'll conflict. DNS changes can take anywhere from 30
+minutes to a few hours to take effect. Once GitHub shows a green
+checkmark next to your domain in Settings → Pages, turn on
+**Enforce HTTPS**.
